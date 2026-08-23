@@ -20,6 +20,18 @@ Error: Refusing to load cask cmrd-consulting/tap/ratify from untrusted tap
 
 After the first install, `brew upgrade --cask ratify` works unqualified.
 
+**`ratify` is a name two projects use.** Homebrew's core tap has a formula
+called `ratify` — the [CNCF Artifact Ratification Framework](https://ratify.dev),
+which is unrelated to this app. A bare `brew install ratify` gets that one:
+
+```
+Warning: Treating ratify as a formula. For the cask, use
+cmrd-consulting/tap/ratify or specify the `--cask` flag.
+```
+
+Another reason the full name is the one to use. `--cask` disambiguates
+everywhere else: `brew info --cask ratify`, `brew upgrade --cask ratify`.
+
 ## What's in here
 
 | Cask | | |
