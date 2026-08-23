@@ -1,0 +1,51 @@
+# Scaffolded by `brew tap-new`, then cut down to what a cask-only tap needs.
+#
+# What went, and why: `brew pr-pull` and `brew bump --formulae` are both bottle
+# workflows, and a cask has no bottles. The Ubuntu leg went with them — the
+# cask here declares `depends_on macos:`, so there is nothing for Linux to say
+# about it.
+#
+# What stayed is the check worth having: does the cask parse, and does it pass
+# the same style rules Homebrew applies to its own.
+name: brew test-bot
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions: {}
+
+defaults:
+  run:
+    shell: bash -xeuo pipefail {0}
+
+jobs:
+  test-bot:
+    runs-on: macos-26
+    permissions:
+      actions: read
+      checks: read
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@b35a29a0f83ee8b8ca07b219fc8db3d7bb88ab49 # 2026.08.10.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cache Homebrew Bundler RubyGems
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ steps.set-up-homebrew.outputs.gems-path }}
+          key: macos-26-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
+          restore-keys: macos-26-rubygems-
+
+      - run: brew test-bot --only-cleanup-before
+
+      - run: brew test-bot --only-setup
+
+      # Parses every cask in the tap and runs `brew style` over it.
+      - run: brew test-bot --only-tap-syntax
