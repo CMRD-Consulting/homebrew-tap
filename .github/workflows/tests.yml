@@ -47,5 +47,21 @@ jobs:
 
       - run: brew test-bot --only-setup
 
-      # Parses every cask in the tap and runs `brew style` over it.
-      - run: brew test-bot --only-tap-syntax
+      # `brew test-bot --only-tap-syntax` would run all three of these, but it
+      # gives no way to pass flags to the audit, and this tap needs one — see
+      # the audit step below.
+      - run: brew style cmrd-consulting/tap
+
+      - run: brew readall --aliases --os=all --arch=all cmrd-consulting/tap
+
+      # token_conflicts is excluded because it is true and unfixable: the name
+      # `ratify` belongs to an unrelated homebrew/core formula (the CNCF
+      # Artifact Ratification Framework, ratify.dev). Renaming the cask would
+      # silence it at the cost of the product's own name, and the conflict has
+      # no consequence here — the cask is installed by its full name,
+      # `cmrd-consulting/tap/ratify`, and a private-source cask could never be
+      # submitted to homebrew-cask core where the collision would matter.
+      #
+      # Every other audit rule still runs. Only this one is waived, and only
+      # for as long as the collision exists.
+      - run: brew audit --except=installed,token_conflicts --tap=cmrd-consulting/tap
