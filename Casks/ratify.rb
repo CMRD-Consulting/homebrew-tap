@@ -1,6 +1,6 @@
 cask "ratify" do
-  version "0.1.0"
-  sha256 "b2f5ca4988be78d68cced9a5c2c4042ba233500313d41fb4f86bf3b84f4624d6"
+  version "0.2.0"
+  sha256 "02270d286f006cb2fae1cffc6380b94df02504c3c1085b9847f7e881c9a8264d"
 
   url "https://github.com/CMRD-Consulting/ratify-releases/releases/download/v#{version}/Ratify_#{version}_universal.dmg",
       verified: "github.com/CMRD-Consulting/ratify-releases/"
@@ -22,13 +22,27 @@ cask "ratify" do
   # The GitHub token is deliberately not listed here. It lives in the login
   # Keychain, which zap cannot reach, and deleting someone's credential on an
   # uninstall would be a surprise either way. Ratify's own sign-out removes it.
+  # The co.crishell.* paths are the pre-rename bundle identifier. They stay
+  # listed so an uninstall still clears data left by a version installed before
+  # the move to dev.cmrd.ratify.
+  #
+  # Strictly alphabetical, which is why each directory's old id comes before
+  # its new one rather than the other way round. Homebrew 6.0's
+  # Cask/ArrayAlphabetization rule requires it, and brew style fails the
+  # release otherwise; the readable pairing is not worth a hand-fixed cask.
   zap trash: [
     "~/Library/Application Support/co.crishell.ratify",
+    "~/Library/Application Support/dev.cmrd.ratify",
     "~/Library/Caches/co.crishell.ratify",
+    "~/Library/Caches/dev.cmrd.ratify",
     "~/Library/HTTPStorages/co.crishell.ratify",
+    "~/Library/HTTPStorages/dev.cmrd.ratify",
     "~/Library/Preferences/co.crishell.ratify.plist",
+    "~/Library/Preferences/dev.cmrd.ratify.plist",
     "~/Library/Saved Application State/co.crishell.ratify.savedState",
+    "~/Library/Saved Application State/dev.cmrd.ratify.savedState",
     "~/Library/WebKit/co.crishell.ratify",
+    "~/Library/WebKit/dev.cmrd.ratify",
   ]
 
   caveats <<~EOS
