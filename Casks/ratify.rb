@@ -1,6 +1,6 @@
 cask "ratify" do
-  version "0.16.0"
-  sha256 "d5f024253ec7d4b7d14c8e1c10adee07e3c8a0617ae1ba09d8fb395cb8afdba0"
+  version "0.17.0"
+  sha256 "0fbb2cf591ece4eedbbb6e4804b2c6c8d9a92712a461ac7c2dc87dd7fc3fa32d"
 
   url "https://github.com/CMRD-Consulting/ratify-releases/releases/download/v#{version}/Ratify_#{version}_universal.dmg",
       verified: "github.com/CMRD-Consulting/ratify-releases/"
@@ -44,14 +44,4 @@ cask "ratify" do
     "~/Library/WebKit/co.crishell.ratify",
     "~/Library/WebKit/dev.cmrd.ratify",
   ]
-
-  caveats <<~EOS
-    Ratify is not yet notarized by Apple, so macOS quarantines it on download
-    and refuses to open it. Clear the quarantine flag once, after installing:
-
-      xattr -dr com.apple.quarantine "/Applications/Ratify.app"
-
-    Homebrew removed `--no-quarantine` in 6.0, so there is no flag that does
-    this for you. Notarization is coming; this line goes away when it lands.
-  EOS
 end
