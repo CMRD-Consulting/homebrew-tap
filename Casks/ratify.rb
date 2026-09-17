@@ -1,6 +1,6 @@
 cask "ratify" do
-  version "0.18.0"
-  sha256 "1581ae81d8e244fdf11060033224c6b8099004dd4cb6e3e9e4f3fe74eb3e4a53"
+  version "0.18.1"
+  sha256 "085869fe4195d09a8e4772ec4845814eb1ffed6e659737c6de5a48d741027f1c"
 
   url "https://github.com/CMRD-Consulting/ratify-releases/releases/download/v#{version}/Ratify_#{version}_universal.dmg",
       verified: "github.com/CMRD-Consulting/ratify-releases/"
