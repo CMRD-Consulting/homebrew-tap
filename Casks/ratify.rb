@@ -1,6 +1,6 @@
 cask "ratify" do
-  version "0.21.0"
-  sha256 "f66611696b252a32a593acda7103c6f4fd645a8b288e9cefd0dfe151f1686f9f"
+  version "0.22.0"
+  sha256 "adee3ce0b67fa1291de019dfb3fc78eb3631976628b2db69a07ddedb4be0215b"
 
   url "https://github.com/CMRD-Consulting/ratify-releases/releases/download/v#{version}/Ratify_#{version}_universal.dmg",
       verified: "github.com/CMRD-Consulting/ratify-releases/"
@@ -13,9 +13,11 @@ cask "ratify" do
     strategy :github_latest
   end
 
-  # A bare symbol is a minimum, not an exact match — Homebrew's own style rule
-  # rewrites ">= :big_sur" to this. It matches the app's minimumSystemVersion.
-  depends_on macos: :big_sur
+  # macOS, with no minimum. The app needs Big Sur (its minimumSystemVersion),
+  # but Homebrew itself no longer runs on anything older, so its style check
+  # (Homebrew/OSDependsOn) rejects the minimum as redundant — and a release
+  # whose cask fails brew style stops before it publishes.
+  depends_on :macos
 
   app "Ratify.app"
 
